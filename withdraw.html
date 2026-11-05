@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080f1e">
+<title>Withdraw Funds | TradersCheeem</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #080f1e;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  width: 100%;
+  max-width: 640px;
+}
+
+.card {
+  background: #202a45;
+  border: 1px solid #394b70;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 15px 45px rgba(0,0,0,.35);
+}
+
+.header {
+  padding: 27px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #394b70;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.header p {
+  color: #b4c2df;
+  margin-bottom: 0;
+  font-size: 17px;
+}
+
+.close {
+  background: transparent;
+  color: #aab9d5;
+  font-size: 32px;
+  padding: 5px;
+}
+
+.content {
+  padding: 27px;
+}
+
+.back {
+  background: transparent;
+  color: #c0cce3;
+  padding: 5px 0;
+  margin-bottom: 28px;
+  font-size: 18px;
+}
+
+label {
+  display: block;
+  color: #c0cce3;
+  margin-bottom: 13px;
+  font-size: 17px;
+}
+
+input {
+  width: 100%;
+  padding: 20px;
+  background: #151d32;
+  color: white;
+  border: 1px solid #3b4c70;
+  border-radius: 18px;
+  font-size: 20px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #438cff;
+  box-shadow: 0 0 0 2px rgba(67,140,255,.15);
+}
+
+.limit {
+  color: #aab9d5;
+  font-size: 15px;
+  margin-top: 13px;
+}
+
+h4 {
+  margin-top: 32px;
+  margin-bottom: 20px;
+  font-size: 19px;
+}
+
+.phone-group {
+  display: flex;
+  background: #151d32;
+  border: 1px solid #3b4c70;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.country-code {
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  background: #30466f;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-right: 1px solid #40577f;
+}
+
+.phone-group input {
+  border: none;
+  border-radius: 0;
+  min-width: 0;
+  background: transparent;
+}
+
+.hint {
+  color: #aab9d5;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 12px;
+}
+
+.withdraw-btn {
+  width: 100%;
+  padding: 23px;
+  margin-top: 30px;
+  background: linear-gradient(110deg,#438fff,#1760f5);
+  color: white;
+  border: none;
+  border-radius: 17px;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 6px 20px rgba(30,105,255,.25);
+}
+
+.withdraw-btn:active {
+  transform: scale(.98);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 9px;
+}
+
+@media(max-width:480px) {
+  .content, .header {
+    padding: 23px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="card">
+
+    <div class="header">
+      <div>
+        <h2>Withdraw Funds</h2>
+        <p>Balance: $<span id="realBalance">0.00</span></p>
+      </div>
+
+      <button class="close" onclick="history.back()">×</button>
+    </div>
+
+    <div class="content">
+
+      <button class="back" onclick="history.back()">
+        ← Back
+      </button>
+
+      <label for="amount">Amount (USD)</label>
+
+      <input
+        id="amount"
+        type="number"
+        min="1"
+        max="1900"
+        step="0.01"
+        placeholder="0.00"
+      >
+
+      <p class="limit">Min: $1 • Max: $1,900</p>
+
+      <h4>M-Pesa</h4>
+
+      <label for="phone">M-Pesa phone number</label>
+
+      <div class="phone-group">
+        <span class="country-code">+254</span>
+
+        <input
+          id="phone"
+          type="tel"
+          placeholder="7XXXXXXXX"
+          maxlength="9"
+          inputmode="numeric"
+        >
+      </div>
+
+      <p class="hint">
+        Enter the M-Pesa number you want to receive your withdrawal.
+      </p>
+
+      <button class="withdraw-btn" onclick="requestWithdrawal()">
+        Withdraw
+      </button>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function requestWithdrawal() {
+  const amount = Number(
+    document.getElementById('amount').value
+  );
+
+  const phone = document.getElementById('phone').value.trim();
+
+  if (!Number.isFinite(amount) || amount < 1 || amount > 1900) {
+    alert('Enter an amount between $1 and $1,900.');
+    return;
+  }
+
+  if (!/^[17][0-9]{8}$/.test(phone)) {
+    alert('Enter a valid Kenyan M-Pesa number.');
+    return;
+  }
+
+  alert('Your details have been entered successfully. Payment processing is not connected yet.');
+}
+</script>
+
+</body>
+</html>
