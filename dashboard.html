@@ -403,18 +403,88 @@ function setChip(v){stake=v; document.getElementById('stake').innerText=stake; d
 function changeStake(d){stake=Math.max(1,stake+d); document.getElementById('stake').innerText=stake; updPay(); document.querySelectorAll('#chips span').forEach(s=>s.classList.remove('on'));}
 function editStake(){let v=prompt('Enter Stake $', stake); if(v){stake=parseInt(v); document.getElementById('stake').innerText=stake; updPay();}}
 function setMode(m){autoMode=m==='AUTO'; document.getElementById('autoB').className=autoMode?'on':''; document.getElementById('manB').className=!autoMode?'on':'';}
+
 function doTrade(dir){
-  let curBal=balances[mode];
-  if(curBal<stake){alert('Low '+mode.toUpperCase()+' balance! '+(mode==='demo'?'Reset demo.':'Deposit.')); return;}
-  balances[mode]-=stake;
-  let win=(dir==='EVEN'&&lastD%2===0)||(dir==='ODD'&&lastD%2===1);
-  total++; if(win){wins++; let p=stake*0.952; balances[mode]+=stake+p; profit+=p;} else {losses++; profit-=stake;}
-  document.getElementById('profit').innerText=(profit>=0?'+$':'-$')+Math.abs(profit).toFixed(2);
-  document.getElementById('profit').style.color=profit>=0?'#10B981':'#ef4444';
-  document.getElementById('lastInfo').innerText=`LAST  ${total}T · ${wins}W · ${losses}L [${mode.toUpperCase()}]`;
+  let curBal = balances[mode];
+
+  if(curBal < stake){
+    alert('Low '+mode.toUpperCase()+' balance! '+(mode==='demo'?'Reset demo.':'Deposit.'));
+    return;
+  }
+
+  // Deduct stake
+  balances[mode] -= stake;
+
+  // Calculate result
+  let win = (dir === 'EVEN' && lastD % 2 === 0) ||
+            (dir === 'ODD' && lastD % 2 === 1);
+
+  let tradeProfit = 0;
+  let result = '';
+
+  total++;
+
+  if(win){
+    wins++;
+    tradeProfit = stake * 0.952;
+    balances[mode] += stake + tradeProfit;
+    profit += tradeProfit;
+    result = 'win';
+  } else {
+    losses++;
+    tradeProfit = -stake;
+    profit -= stake;
+    result = 'loss';
+  }
+
+  // SAVE COMPLETED TRADE TO HISTORY
+  const trade = {
+    id: Date.now() + '-' + Math.random().toString(36).slice(2),
+    account: mode,
+    pair: 'Vol 10 (1s)',
+    direction: dir,
+    stake: stake,
+    profit: tradeProfit,
+    result: result,
+    digit: lastD,
+    date: new Date().toISOString()
+  };
+
+  try {
+    let history = JSON.parse(
+      localStorage.getItem('tradeHistory') || '[]'
+    );
+
+    if (!Array.isArray(history)) history = [];
+
+    history.push(trade);
+
+    localStorage.setItem(
+      'tradeHistory',
+      JSON.stringify(history)
+    );
+  } catch(error) {
+    console.error('Could not save trade history:', error);
+    alert('Trade completed, but history could not be saved.');
+  }
+
+  // UPDATE DASHBOARD
+  document.getElementById('profit').innerText =
+    (profit >= 0 ? '+$' : '-$') + Math.abs(profit).toFixed(2);
+
+  document.getElementById('profit').style.color =
+    profit >= 0 ? '#10B981' : '#ef4444';
+
+  document.getElementById('lastInfo').innerText =
+    `LAST  ${total}T · ${wins}W · ${losses}L [${mode.toUpperCase()}]`;
+
   updateBalDisplay();
-  if(autoMode && total<100){setTimeout(()=>doTrade(Math.random()>0.5?'EVEN':'ODD'),1500);}
+
+  if(autoMode && total < 100){
+    setTimeout(() => doTrade(Math.random() > 0.5 ? 'EVEN' : 'ODD'), 1500);
+  }
 }
+
 function pickDigit(i){lastD=i; renderDigits();}
 
 function handleSidebarAction(action) {
