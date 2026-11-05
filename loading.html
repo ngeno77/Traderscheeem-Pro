@@ -1,0 +1,539 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#040b17">
+<title>Traders Scheem | Initializing</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  overflow-x: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #fff;
+  background:
+    radial-gradient(ellipse at 15% 5%, #102c3b 0%, transparent 40%),
+    radial-gradient(ellipse at 85% 95%, #33230e 0%, transparent 35%),
+    #030710;
+}
+
+.stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, #fff 1px, transparent 1.8px),
+    radial-gradient(circle, #8bdfff 1px, transparent 1.8px);
+  background-size: 113px 137px, 173px 191px;
+  background-position: 12px 17px, 62px 91px;
+  opacity: .45;
+}
+
+.terminal-card {
+  width: 100%;
+  max-width: 790px;
+  padding: 34px 28px 30px;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  border: 1px solid #29394a;
+  border-radius: 30px;
+  background: linear-gradient(145deg,
+    rgba(13,24,40,.98),
+    rgba(3,11,25,.98) 65%,
+    rgba(9,23,37,.98));
+  box-shadow: 0 0 50px #00aeff14, 0 25px 80px #000b;
+}
+
+.terminal-card::before,
+.terminal-card::after {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-color: #f5cc53;
+  border-style: solid;
+  pointer-events: none;
+}
+
+.terminal-card::before {
+  top: 0;
+  left: 0;
+  border-width: 2px 0 0 2px;
+  border-radius: 28px 0 0 0;
+}
+
+.terminal-card::after {
+  right: 0;
+  bottom: 0;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 28px 0;
+}
+
+.orbit-container {
+  width: 250px;
+  height: 250px;
+  max-width: 70vw;
+  max-height: 70vw;
+  position: relative;
+  margin: 0 auto 24px;
+  display: grid;
+  place-items: center;
+}
+
+.orbit {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 1px dashed #f5c94ba6;
+  border-radius: 50%;
+  animation: spin 12s linear infinite;
+}
+
+.orbit::before {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: -7px;
+  left: calc(50% - 7px);
+  border-radius: 50%;
+  background: #f5c94b;
+  box-shadow: 0 0 20px #f5c94b;
+}
+
+.orbit-inner {
+  width: 80%;
+  height: 80%;
+  position: absolute;
+  border: 2px solid transparent;
+  border-top-color: #37d4ff;
+  border-right-color: #e6c34f;
+  border-radius: 50%;
+  animation: spin 5s linear infinite reverse;
+}
+
+.orbit-inner::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 48%;
+  width: 14px;
+  height: 14px;
+  background: #36cfff;
+  border-radius: 50%;
+  box-shadow: 0 0 18px #36cfff;
+}
+
+.orbit-core {
+  width: 61%;
+  height: 61%;
+  border: 3px solid #d8b84b;
+  border-radius: 30%;
+  box-shadow: 0 0 25px #e9b93622, inset 0 0 25px #1d6e8b17;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+.brand-title {
+  font-size: clamp(29px, 5vw, 48px);
+  font-weight: 800;
+  letter-spacing: -.8px;
+  margin-bottom: 20px;
+}
+
+.brand-title span {
+  color: #f5d05a;
+  text-shadow: 0 0 20px #f5c94b25;
+}
+
+.terminal-tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 24px;
+  color: #f0cc60;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.live-badge {
+  border: 1px solid #285574;
+  color: #6bd8ff;
+  padding: 5px 12px;
+  border-radius: 20px;
+  letter-spacing: 1px;
+  font-size: 11px;
+}
+
+.live-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #39cfff;
+  box-shadow: 0 0 10px #39cfff;
+}
+
+.tagline {
+  color: #b8c4d5;
+  font-size: clamp(14px, 2.4vw, 21px);
+  margin-bottom: 44px;
+}
+
+.progress-track {
+  width: 100%;
+  height: 12px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #182131;
+  margin-bottom: 12px;
+}
+
+.progress-fill {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #dcae32, #f5d65b, #36cfff);
+  border-radius: 20px;
+  transition: width .15s linear;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 34px;
+  color: #b9c5d7;
+  font-size: 15px;
+}
+
+.progress-percent {
+  color: #f5d05a;
+  font-weight: bold;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.spinner {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #2b3c50;
+  border-top-color: #42d2ff;
+  border-right-color: #f5c94b;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-dots {
+  display: flex;
+  justify-content: center;
+  gap: 13px;
+  margin-bottom: 32px;
+}
+
+.loading-dots span {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #25445a;
+}
+
+.loading-dots span:first-child {
+  width: 48px;
+  border-radius: 15px;
+  background: #f5d05a;
+  box-shadow: 0 0 15px #f5c94b77;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.feature-item {
+  min-width: 0;
+  padding: 10px 3px;
+}
+
+.feature-icon {
+  width: 90px;
+  height: 90px;
+  max-width: 100%;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 33px;
+  border: 2px solid #36718d;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #112d43, #091426);
+  color: #48d8ff;
+}
+
+.feature-item:nth-child(2) .feature-icon {
+  color: #b99aff;
+  border-color: #7862a9;
+  background: linear-gradient(145deg, #251c40, #101126);
+}
+
+.feature-item:nth-child(3) .feature-icon {
+  color: #f5d05a;
+  border-color: #9b8040;
+  background: linear-gradient(145deg, #302a1c, #111426);
+}
+
+.feature-label {
+  color: #d6dfeb;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.footer-note {
+  color: #8797ac;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.7;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+@media (max-width: 480px) {
+  .terminal-card {
+    padding: 28px 17px 24px;
+    border-radius: 25px;
+  }
+
+  .orbit-container {
+    width: 190px;
+    height: 190px;
+    margin-bottom: 27px;
+  }
+
+  .terminal-tag {
+    flex-wrap: wrap;
+    letter-spacing: 3px;
+    font-size: 11px;
+  }
+
+  .tagline {
+    margin-bottom: 35px;
+  }
+
+  .feature-icon {
+    width: 65px;
+    height: 65px;
+    font-size: 26px;
+    margin-bottom: 12px;
+  }
+
+  .feature-label {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .footer-note {
+    font-size: 11px;
+  }
+
+  .progress-stats {
+    font-size: 12px;
+  }
+}
+
+@media (max-height: 800px) {
+  .terminal-card {
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+
+  .orbit-container {
+    width: 130px;
+    height: 130px;
+    margin-bottom: 15px;
+  }
+
+  .brand-title {
+    margin-bottom: 12px;
+  }
+
+  .terminal-tag {
+    margin-bottom: 14px;
+  }
+
+  .tagline {
+    margin-bottom: 24px;
+  }
+
+  .progress-stats {
+    margin-bottom: 20px;
+  }
+
+  .loading-dots {
+    margin-bottom: 18px;
+  }
+
+  .features-grid {
+    margin-bottom: 18px;
+  }
+
+  .feature-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="stars"></div>
+
+<main class="terminal-card">
+
+  <div class="orbit-container">
+    <div class="orbit"></div>
+    <div class="orbit-inner"></div>
+    <div class="orbit-core"></div>
+  </div>
+
+  <h1 class="brand-title">Traders <span>Scheem</span></h1>
+
+  <div class="terminal-tag">
+    TRADING TERMINAL
+    <span class="live-badge">
+      <span class="live-dot"></span> LIVE
+    </span>
+  </div>
+
+  <p class="tagline">
+    Data-driven tools for disciplined capital.
+  </p>
+
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <div class="progress-stats">
+    <div class="status-row">
+      <div class="spinner" id="spinner"></div>
+      <span id="statusText">Connecting to markets...</span>
+    </div>
+    <span class="progress-percent" id="progressPercent">0%</span>
+  </div>
+
+  <div class="loading-dots">
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="feature-icon">📊</div>
+      <div class="feature-label">Market Analytics</div>
+    </div>
+
+    <div class="feature-item">
+      <div class="feature-icon">🤖</div>
+      <div class="feature-label">Automated Execution</div>
+    </div>
+
+    <div class="feature-item">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-label">Copy Trading</div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    Live pricing · Secure login · Synthetic markets 24/7
+  </div>
+
+</main>
+
+<script>
+(function () {
+  const progressFill = document.getElementById("progressFill");
+  const progressPercent = document.getElementById("progressPercent");
+  const statusText = document.getElementById("statusText");
+  const spinner = document.getElementById("spinner");
+
+  // Change this only if your dashboard has a different filename.
+  const DASHBOARD_PAGE = "dashboard.html";
+
+  const messages = [
+    { progress: 0, text: "Connecting to markets..." },
+    { progress: 25, text: "Loading market data..." },
+    { progress: 50, text: "Initializing pricing engine..." },
+    { progress: 75, text: "Preparing your desk..." },
+    { progress: 90, text: "Finalizing login..." }
+  ];
+
+  let progress = 0;
+  const duration = 3500;
+  const intervalTime = 35;
+  const increment = 100 / (duration / intervalTime);
+
+  const timer = setInterval(function () {
+    progress = Math.min(100, progress + increment);
+
+    progressFill.style.width = progress + "%";
+    progressPercent.textContent = Math.floor(progress) + "%";
+
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (progress >= messages[i].progress) {
+        statusText.textContent = messages[i].text;
+        break;
+      }
+    }
+
+    if (progress >= 100) {
+      clearInterval(timer);
+      statusText.textContent = "Ready! Opening dashboard...";
+      spinner.style.display = "none";
+
+      setTimeout(function () {
+        window.location.replace(DASHBOARD_PAGE);
+      }, 500);
+    }
+  }, intervalTime);
+})();
+</script>
+
+</body>
+</html>
