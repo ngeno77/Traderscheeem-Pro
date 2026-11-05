@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07101e">
+<title>Create Account | Traders Scheem</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #f7f9ff;
+  background:
+    radial-gradient(ellipse at top, #172d50 0%, #07101e 55%, #040914 100%);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 6%;
+  border-bottom: 1px solid #263d59;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.logo span {
+  color: #f5c94b;
+}
+
+.nav-link {
+  color: #f5c94b;
+  border: 1px solid #b68d29;
+  border-radius: 10px;
+  padding: 12px 18px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+main {
+  padding: 42px 16px;
+}
+
+.heading {
+  text-align: center;
+  margin: 0 auto 28px;
+}
+
+.heading h1 {
+  font-size: clamp(30px, 6vw, 46px);
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.heading h1 span {
+  color: #f5c94b;
+}
+
+.heading p {
+  color: #aebed4;
+  line-height: 1.7;
+}
+
+.card {
+  max-width: 520px;
+  margin: auto;
+  padding: 28px;
+  border: 1px solid #344c6a;
+  border-radius: 18px;
+  background: rgba(8, 20, 38, .94);
+  box-shadow: 0 18px 60px #0006;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 9px;
+  font-size: 14px;
+}
+
+.input-wrap {
+  position: relative;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  border-radius: 9px;
+  border: 1px solid #3c5575;
+  background: #091629;
+  color: white;
+  font-size: 15px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #38d5f4;
+  box-shadow: 0 0 0 3px #38d5f41b;
+}
+
+.password-input {
+  padding-right: 65px;
+}
+
+.toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #38d5f4;
+  cursor: pointer;
+  padding: 6px;
+  font-weight: 600;
+}
+
+.hint {
+  color: #91a6c1;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.continue {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 17px;
+  background: linear-gradient(100deg, #e9b936, #ffe17b);
+  color: #171403;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.continue:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px #f5c94b35;
+}
+
+.message {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.terms {
+  margin-top: 20px;
+  text-align: center;
+  color: #9eafc7;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.terms a {
+  color: #38d5f4;
+}
+
+footer {
+  text-align: center;
+  padding: 24px 15px;
+  border-top: 1px solid #1c3048;
+  color: #8295af;
+  font-size: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Traders <span>Scheem</span></div>
+  <a class="nav-link" href="login.html">Log In</a>
+</header>
+
+<main>
+  <section class="heading">
+    <h1>Create Your <span>Account</span></h1>
+    <p>Join Traders Scheem and start your trading journey.</p>
+    <p>It only takes a few minutes.</p>
+  </section>
+
+  <form class="card" id="signupForm">
+    <div class="field">
+      <label for="fullName">Full Name</label>
+      <input id="fullName" type="text" placeholder="Enter your full name" required>
+    </div>
+
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="Enter your email address" required>
+    </div>
+
+    <div class="field">
+      <label for="phone">Phone Number</label>
+      <input id="phone" type="tel" placeholder="e.g. +254712345678" required>
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <div class="input-wrap">
+        <input class="password-input" id="password" type="password" placeholder="Create a password" minlength="4" required>
+        <button class="toggle" type="button" data-target="password">Show</button>
+      </div>
+      <p class="hint">Password must be at least 4 characters.</p>
+    </div>
+
+    <div class="field">
+      <label for="confirmPassword">Confirm Password</label>
+      <div class="input-wrap">
+        <input class="password-input" id="confirmPassword" type="password" placeholder="Confirm your password" required>
+        <button class="toggle" type="button" data-target="confirmPassword">Show</button>
+      </div>
+    </div>
+
+    <button class="continue" type="submit">CONTINUE →</button>
+
+    <p class="message" id="message" role="status" aria-live="polite"></p>
+
+    <p class="terms">
+      By creating an account, you agree to our <a href="terms.html">Terms and Conditions</a> and <a href="privacy.html">Privacy Policy</a>.
+    </p>
+  </form>
+</main>
+
+<footer>
+  © 2026 Traders Scheem. All rights reserved.
+</footer>
+
+<script>
+(function () {
+  const form = document.getElementById("signupForm");
+  const message = document.getElementById("message");
+  const password = document.getElementById("password");
+  const confirmPassword = document.getElementById("confirmPassword");
+
+  const API_URL = "https://traderscheem-backend-pkn6.onrender.com";
+
+  // Toggle Show / Hide Password Functionality
+  document.querySelectorAll(".toggle").forEach(function (button) {
+    button.addEventListener("click", function () {
+      const input = document.getElementById(button.dataset.target);
+      const showPassword = input.type === "password";
+
+      input.type = showPassword ? "text" : "password";
+      button.textContent = showPassword ? "Hide" : "Show";
+    });
+  });
+
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const fullName = document.getElementById("fullName").value.trim();
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const phone = document.getElementById("phone").value.trim();
+
+    if (!fullName || !email || !phone ||
+        !password.value || !confirmPassword.value) {
+      message.style.color = "#ff8b8b";
+      message.textContent = "Please complete all fields.";
+      return;
+    }
+
+    if (password.value.length < 4) {
+      message.style.color = "#ff8b8b";
+      message.textContent = "Your password must be at least 4 characters.";
+      return;
+    }
+
+    if (password.value !== confirmPassword.value) {
+      message.style.color = "#ff8b8b";
+      message.textContent = "Passwords do not match.";
+      confirmPassword.focus();
+      return;
+    }
+
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    submitButton.disabled = true;
+    submitButton.textContent = "SAVING DETAILS...";
+
+    try {
+      const response = await fetch(API_URL + "/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          fullName: fullName,
+          email: email,
+          phone: phone,
+          password: password.value
+        })
+      });
+
+      const responseText = await response.text();
+      let data;
+
+      try {
+        data = JSON.parse(responseText);
+      } catch {
+        throw new Error("Invalid server response.");
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || data.message || "Could not save account."
+        );
+      }
+
+      // Save profile details locally so the dashboard side menu picks them up
+      localStorage.setItem("userName", fullName);
+      localStorage.setItem("userEmail", email);
+      localStorage.setItem("loggedInUser", fullName);
+      localStorage.setItem("loggedInEmail", email);
+
+      password.value = "";
+      confirmPassword.value = "";
+
+      submitButton.textContent = "ACCOUNT READY...";
+      message.style.color = "#f5c94b";
+      message.textContent = "Details saved! Opening the loading screen...";
+
+      setTimeout(function () {
+        window.location.href = "loading.html";
+      }, 500);
+
+    } catch (error) {
+      message.style.color = "#ff8b8b";
+      message.textContent = error.message;
+
+      submitButton.disabled = false;
+      submitButton.textContent = "CONTINUE →";
+    }
+  });
+})();
+</script>
+</body>
+</html>
