@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account Settings | TradersCheeem</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  padding:20px;
+  background:#080f1e;
+  color:white;
+  font-family:Arial,sans-serif;
+}
+.container{max-width:500px;margin:auto}
+.header{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin-bottom:30px;
+}
+button{
+  cursor:pointer;
+  border:0;
+  border-radius:9px;
+  padding:12px;
+  color:white;
+  background:#3478ed;
+}
+.back{background:#202b40}
+h2{margin:0}
+.card{
+  background:#172236;
+  padding:20px;
+  border-radius:14px;
+  margin-bottom:18px;
+}
+.card h3{margin-top:0}
+small{color:#aab5c7}
+.email{
+  display:block;
+  margin-top:10px;
+  color:#55a1ff;
+  overflow-wrap:anywhere;
+}
+.option{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-top:18px;
+}
+.light{
+  background:#f1f5f9;
+  color:#172033;
+}
+.light .card{background:white}
+.light small{color:#526078}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="header">
+    <button class="back" onclick="history.back()">← Back</button>
+    <h2>Account Settings</h2>
+  </div>
+
+  <div class="card">
+    <h3>My Profile</h3>
+    <small>Registered email address</small>
+    <strong class="email" id="userEmail">Loading...</strong>
+  </div>
+
+  <div class="card">
+    <h3>Appearance</h3>
+    <div class="option">
+      <span>Dark theme</span>
+      <button onclick="toggleTheme()" id="themeButton">
+        Switch theme
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Notifications</h3>
+    <div class="option">
+      <span>Enable notifications</span>
+      <input type="checkbox" id="notifications">
+    </div>
+    <small>Preference saved on this device.</small>
+  </div>
+
+  <div class="card">
+    <h3>Account</h3>
+    <button onclick="logout()">Log out</button>
+  </div>
+
+</div>
+
+<script>
+function loadEmail(){
+  const keys=[
+    'hassanfx_user',
+    'traderscheem_user',
+    'currentUser',
+    'loggedInUser',
+    'user',
+    'userData'
+  ];
+
+  let email='Email not found';
+
+  for(const key of keys){
+    try{
+      const saved=localStorage.getItem(key);
+      if(!saved)continue;
+
+      const data=JSON.parse(saved);
+
+      if(typeof data==='string' && data.includes('@')){
+        email=data;
+      }else if(data && typeof data==='object'){
+        email=data.email || data.user?.email || email;
+      }
+
+      if(email!=='Email not found')break;
+    }catch(e){
+      const saved=localStorage.getItem(key);
+      if(saved && saved.includes('@')){
+        email=saved;
+        break;
+      }
+    }
+  }
+
+  document.getElementById('userEmail').textContent=email;
+}
+
+function toggleTheme(){
+  document.body.classList.toggle('light');
+  const theme=document.body.classList.contains('light')?'light':'dark';
+  localStorage.setItem('sidebarTheme',theme);
+}
+
+function loadTheme(){
+  const theme=localStorage.getItem('sidebarTheme')||'dark';
+  document.body.classList.toggle('light',theme==='light');
+}
+
+const notification=document.getElementById('notifications');
+notification.checked=localStorage.getItem('notificationsEnabled')==='true';
+
+notification.addEventListener('change',()=>{
+  localStorage.setItem('notificationsEnabled',notification.checked);
+});
+
+function logout(){
+  if(confirm('Are you sure you want to log out?')){
+    location.href='index.html';
+  }
+}
+
+loadEmail();
+loadTheme();
+</script>
+</body>
+                                     </html>
+  
