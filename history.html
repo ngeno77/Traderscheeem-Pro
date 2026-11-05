@@ -1,0 +1,787 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080f1e">
+<title>Trading History | TradersCheeem</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #080f1e;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  width: 100%;
+  max-width: 850px;
+  margin: auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 15px 0 25px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 25px;
+}
+
+.subtitle {
+  color: #9aa9c3;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.back {
+  background: #202e49;
+  color: white;
+  border: 1px solid #354968;
+  padding: 12px 17px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 13px;
+}
+
+.summary-card {
+  background: linear-gradient(145deg,#202f4b,#17243a);
+  border: 1px solid #354d72;
+  border-radius: 17px;
+  padding: 20px;
+}
+
+.summary-card p {
+  color: #aab9d5;
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+
+.summary-card h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.blue {
+  color: #438fff;
+}
+
+.green {
+  color: #36d99a;
+}
+
+.red {
+  color: #ff5367;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.stat-card {
+  background: #19263d;
+  border: 1px solid #304363;
+  border-radius: 14px;
+  padding: 15px 8px;
+  text-align: center;
+}
+
+.stat-card p {
+  margin: 0 0 9px;
+  color: #aab9d5;
+  font-size: 12px;
+}
+
+.stat-card strong {
+  font-size: 20px;
+}
+
+.section {
+  margin-top: 30px;
+}
+
+.section-title {
+  font-size: 19px;
+  margin-bottom: 16px;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  background: #151f33;
+  padding: 6px;
+  border-radius: 13px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  border: none;
+  border-radius: 10px;
+  padding: 16px 8px;
+  background: transparent;
+  color: #aab9d5;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: linear-gradient(110deg,#438fff,#1760f5);
+  color: white;
+  box-shadow: 0 4px 15px rgba(30,105,255,.2);
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trade-card {
+  background: linear-gradient(145deg,#202d46,#17243a);
+  border: 1px solid #344968;
+  border-radius: 15px;
+  padding: 17px;
+}
+
+.trade-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.pair {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.result {
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.result.win {
+  color: #36d99a;
+  background: rgba(54,217,154,.13);
+}
+
+.result.loss {
+  color: #ff5367;
+  background: rgba(255,83,103,.13);
+}
+
+.result.pending {
+  color: #f5c76b;
+  background: rgba(245,199,107,.13);
+}
+
+.direction {
+  display: inline-block;
+  margin-top: 13px;
+  padding: 6px 11px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.direction.buy {
+  color: #36d99a;
+  background: rgba(54,217,154,.12);
+}
+
+.direction.sell {
+  color: #ff6678;
+  background: rgba(255,83,103,.12);
+}
+
+.trade-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 17px;
+}
+
+.detail p {
+  color: #9aa9c3;
+  font-size: 12px;
+  margin: 0 0 7px;
+}
+
+.detail strong {
+  font-size: 15px;
+}
+
+.trade-date {
+  color: #8493ad;
+  font-size: 12px;
+  margin-top: 16px;
+  padding-top: 13px;
+  border-top: 1px solid #304363;
+}
+
+.empty {
+  text-align: center;
+  background: #19263d;
+  border: 1px solid #304363;
+  border-radius: 16px;
+  padding: 40px 20px;
+  color: #aab9d5;
+}
+
+.empty-icon {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.empty h3 {
+  color: white;
+  margin-bottom: 8px;
+}
+
+.empty p {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.actions {
+  margin-top: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.clear-btn {
+  padding: 13px 17px;
+  background: rgba(255,83,103,.13);
+  border: 1px solid #a43c50;
+  border-radius: 10px;
+  color: #ff6678;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.protected {
+  color: #36d99a;
+  font-size: 12px;
+}
+
+.notice {
+  color: #8493ad;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 18px;
+}
+
+@media(max-width:480px) {
+  .container {
+    padding: 15px;
+  }
+
+  .summary-card {
+    padding: 16px;
+  }
+
+  .summary-card h2 {
+    font-size: 23px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div>
+      <h2>Trading History</h2>
+      <div class="subtitle">Your complete trading activity</div>
+    </div>
+
+    <button class="back" onclick="history.back()">
+      ← Back
+    </button>
+  </div>
+
+  <!-- ACCOUNT SUMMARY -->
+
+  <div class="summary">
+
+    <div class="summary-card">
+      <p>Demo Trades</p>
+      <h2 class="blue" id="demoCount">0</h2>
+    </div>
+
+    <div class="summary-card">
+      <p>Real Trades</p>
+      <h2 class="green" id="realCount">0</h2>
+    </div>
+
+  </div>
+
+  <!-- TRADE STATISTICS -->
+
+  <div class="stats">
+
+    <div class="stat-card">
+      <p>Total Wins</p>
+      <strong class="green" id="wins">0</strong>
+    </div>
+
+    <div class="stat-card">
+      <p>Total Losses</p>
+      <strong class="red" id="losses">0</strong>
+    </div>
+
+    <div class="stat-card">
+      <p>Total Trades</p>
+      <strong id="totalTrades">0</strong>
+    </div>
+
+  </div>
+
+  <!-- HISTORY SECTION -->
+
+  <div class="section">
+
+    <h3 class="section-title">Your Trade Records</h3>
+
+    <div class="tabs">
+
+      <button class="tab active"
+              id="demoTab"
+              onclick="switchHistory('demo')">
+        Demo History
+      </button>
+
+      <button class="tab"
+              id="realTab"
+              onclick="switchHistory('real')">
+        Real History
+      </button>
+
+    </div>
+
+    <div id="historyList" class="history-list"></div>
+
+    <!-- HISTORY ACTIONS -->
+
+    <div class="actions">
+
+      <span id="historyLabel"
+            style="color:#9aa9c3;font-size:13px">
+        Demo account records
+      </span>
+
+      <button
+        class="clear-btn"
+        id="clearButton"
+        onclick="clearDemoHistory()">
+        🗑 Clear Demo History
+      </button>
+
+      <span id="protectedLabel" class="protected"
+            style="display:none">
+        🔒 Real records protected
+      </span>
+
+    </div>
+
+    
+
+  </div>
+
+</div>
+
+<script>
+
+// CURRENT SELECTED ACCOUNT
+
+let currentHistory = 'demo';
+
+// READ SAVED TRADES
+
+function getTrades() {
+
+  try {
+
+    const saved = JSON.parse(
+      localStorage.getItem('tradeHistory') || '[]'
+    );
+
+    if (Array.isArray(saved)) return saved;
+
+    if (saved && Array.isArray(saved.trades)) {
+      return saved.trades;
+    }
+
+    return [];
+
+  } catch(error) {
+
+    console.error('History loading error:', error);
+    return [];
+
+  }
+
+}
+
+// IDENTIFY DEMO OR REAL ACCOUNT
+
+function getAccount(trade) {
+
+  const account = String(
+    trade.account ||
+    trade.accountType ||
+    trade.mode ||
+    trade.account_type ||
+    'demo'
+  ).toLowerCase();
+
+  return account.includes('real') ? 'real' : 'demo';
+
+}
+
+// IDENTIFY WIN OR LOSS
+
+function getResult(trade) {
+
+  const value = String(
+    trade.result ||
+    trade.outcome ||
+    trade.status ||
+    ''
+  ).toLowerCase();
+
+  if (value.includes('win') || trade.win === true) {
+    return 'win';
+  }
+
+  if (value.includes('loss') || trade.win === false) {
+    return 'loss';
+  }
+
+  return 'pending';
+
+}
+
+// FORMAT MONEY
+
+function money(value) {
+
+  const number = Number(value);
+
+  return Number.isFinite(number)
+    ? '$' + Math.abs(number).toFixed(2)
+    : '$0.00';
+
+}
+
+// ESCAPE TEXT
+
+function safeText(value) {
+
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[char]);
+
+}
+
+// GET TRADE DATE
+
+function getTradeDate(trade) {
+
+  const date =
+    trade.date ||
+    trade.createdAt ||
+    trade.timestamp;
+
+  if (!date) return 'Date unavailable';
+
+  const parsed = new Date(date);
+
+  return Number.isNaN(parsed.getTime())
+    ? 'Date unavailable'
+    : parsed.toLocaleString();
+
+}
+
+// GET STAKE
+
+function getStake(trade) {
+
+  return trade.stake ??
+         trade.amount ??
+         trade.investment ??
+         trade.betAmount ??
+         0;
+
+}
+
+// GET PROFIT OR LOSS
+
+function getProfit(trade) {
+
+  return trade.profit ??
+         trade.pnl ??
+         trade.netProfit ??
+         trade.earning ??
+         0;
+
+}
+
+// GET TRADING PAIR
+
+function getPair(trade) {
+
+  return trade.pair ||
+         trade.symbol ||
+         trade.asset ||
+         trade.market ||
+         'Unknown Asset';
+
+}
+
+// GET BUY OR SELL
+
+function getDirection(trade) {
+
+  return String(
+    trade.direction ||
+    trade.type ||
+    trade.action ||
+    'Unknown'
+  ).toUpperCase();
+
+}
+
+// SWITCH HISTORY TABS
+
+function switchHistory(account) {
+
+  currentHistory = account;
+
+  renderHistory();
+
+}
+
+// RENDER HISTORY
+
+function renderHistory() {
+
+  const trades = getTrades();
+
+  const demoTrades = trades.filter(
+    trade => getAccount(trade) === 'demo'
+  );
+
+  const realTrades = trades.filter(
+    trade => getAccount(trade) === 'real'
+  );
+
+  document.getElementById('demoCount').textContent =
+    demoTrades.length;
+
+  document.getElementById('realCount').textContent =
+    realTrades.length;
+
+  const wins = trades.filter(
+    trade => getResult(trade) === 'win'
+  ).length;
+
+  const losses = trades.filter(
+    trade => getResult(trade) === 'loss'
+  ).length;
+
+  document.getElementById('wins').textContent = wins;
+
+  document.getElementById('losses').textContent = losses;
+
+  document.getElementById('totalTrades').textContent =
+    trades.length;
+
+  // UPDATE TAB COLORS
+
+  document.getElementById('demoTab').classList.toggle(
+    'active', currentHistory === 'demo'
+  );
+
+  document.getElementById('realTab').classList.toggle(
+    'active', currentHistory === 'real'
+  );
+
+  // UPDATE BUTTONS
+
+  document.getElementById('historyLabel').textContent =
+    currentHistory === 'demo'
+      ? 'Demo account records'
+      : 'Real account records';
+
+  document.getElementById('clearButton').style.display =
+    currentHistory === 'demo' ? 'block' : 'none';
+
+  document.getElementById('protectedLabel').style.display =
+    currentHistory === 'real' ? 'block' : 'none';
+
+  // SELECT ACCOUNT HISTORY
+
+  const selected = currentHistory === 'demo'
+    ? demoTrades
+    : realTrades;
+
+  const list = document.getElementById('historyList');
+
+  if (selected.length === 0) {
+
+    list.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">◷</div>
+        <h3>No Trading History</h3>
+        <p>Your ${currentHistory} trades will appear here
+        after they are recorded.</p>
+      </div>
+    `;
+
+    return;
+  }
+
+  // DISPLAY TRADES
+
+  list.innerHTML = [...selected].reverse().map(trade => {
+
+    const result = getResult(trade);
+
+    const direction = getDirection(trade);
+
+    const profit = Number(getProfit(trade)) || 0;
+
+    const resultText =
+      result === 'win' ? 'WIN' :
+      result === 'loss' ? 'LOSS' : 'PENDING';
+
+    const directionClass =
+      direction === 'BUY' ? 'buy' :
+      direction === 'SELL' ? 'sell' : '';
+
+    return `
+
+      <div class="trade-card">
+
+        <div class="trade-top">
+
+          <span class="pair">
+            ${safeText(getPair(trade))}
+          </span>
+
+          <span class="result ${result}">
+            ${resultText}
+          </span>
+
+        </div>
+
+        <span class="direction ${directionClass}">
+          ${safeText(direction)}
+        </span>
+
+        <div class="trade-details">
+
+          <div class="detail">
+            <p>Investment</p>
+            <strong>${money(getStake(trade))}</strong>
+          </div>
+
+          <div class="detail">
+            <p>Profit / Loss</p>
+            <strong class="${profit >= 0 ? 'green' : 'red'}">
+              ${profit > 0 ? '+' : profit < 0 ? '-' : ''}
+              ${money(profit)}
+            </strong>
+          </div>
+
+        </div>
+
+        <div class="trade-date">
+          ${safeText(getTradeDate(trade))}
+        </div>
+
+      </div>
+
+    `;
+
+  }).join('');
+
+}
+
+// CLEAR DEMO HISTORY ONLY
+
+function clearDemoHistory() {
+
+  const confirmed = confirm(
+    'Are you sure you want to clear ALL Demo Trading History? Real history will not be cleared.'
+  );
+
+  if (!confirmed) return;
+
+  const trades = getTrades();
+
+  const remainingTrades = trades.filter(
+    trade => getAccount(trade) !== 'demo'
+  );
+
+  localStorage.setItem(
+    'tradeHistory',
+    JSON.stringify(remainingTrades)
+  );
+
+  renderHistory();
+
+  alert('Demo trading history cleared successfully.');
+
+}
+
+// INITIALIZE PAGE
+
+renderHistory();
+
+// UPDATE IF ANOTHER TAB SAVES NEW TRADES
+
+window.addEventListener('storage', function(event) {
+
+  if (event.key === 'tradeHistory') {
+    renderHistory();
+  }
+
+});
+
+</script>
+
+</body>
+</html>
