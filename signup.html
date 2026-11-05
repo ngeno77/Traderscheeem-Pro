@@ -244,6 +244,7 @@ footer {
   © 2026 Traders Scheem. All rights reserved.
 </footer>
 
+
 <script>
 (function () {
   const form = document.getElementById("signupForm");
@@ -251,9 +252,10 @@ footer {
   const password = document.getElementById("password");
   const confirmPassword = document.getElementById("confirmPassword");
 
-  const API_URL = "https://traderscheem-backend-pkn6.onrender.com";
+  // NEW TRADERSCHEEEM-PRO BACKEND
+  const API_URL = "https://traderscheeem-pro-backend.onrender.com";
 
-  // Toggle Show / Hide Password Functionality
+  // Show / Hide Password
   document.querySelectorAll(".toggle").forEach(function (button) {
     button.addEventListener("click", function () {
       const input = document.getElementById(button.dataset.target);
@@ -295,6 +297,7 @@ footer {
 
     submitButton.disabled = true;
     submitButton.textContent = "SAVING DETAILS...";
+    message.textContent = "";
 
     try {
       const response = await fetch(API_URL + "/api/auth/register", {
@@ -310,41 +313,36 @@ footer {
         })
       });
 
-      const responseText = await response.text();
-      let data;
+      const data = await response.json();
 
-      try {
-        data = JSON.parse(responseText);
-      } catch {
-        throw new Error("Invalid server response.");
-      }
-
-      if (!response.ok) {
+      if (!response.ok || !data.success) {
         throw new Error(
-          data.error || data.message || "Could not save account."
+          data.error || data.message || "Could not create your account."
         );
       }
 
-      // Save profile details locally so the dashboard side menu picks them up
-      localStorage.setItem("userName", fullName);
-      localStorage.setItem("userEmail", email);
-      localStorage.setItem("loggedInUser", fullName);
-      localStorage.setItem("loggedInEmail", email);
+      const user = data.user || {};
+
+      // Save the registered user's profile
+      localStorage.setItem("userName", user.fullName || fullName);
+      localStorage.setItem("userEmail", user.email || email);
+      localStorage.setItem("loggedInUser", user.fullName || fullName);
+      localStorage.setItem("loggedInEmail", user.email || email);
 
       password.value = "";
       confirmPassword.value = "";
 
       submitButton.textContent = "ACCOUNT READY...";
       message.style.color = "#f5c94b";
-      message.textContent = "Details saved! Opening the loading screen...";
+      message.textContent = "Account created successfully! Opening loading screen...";
 
       setTimeout(function () {
         window.location.href = "loading.html";
-      }, 500);
+      }, 700);
 
     } catch (error) {
       message.style.color = "#ff8b8b";
-      message.textContent = error.message;
+      message.textContent = error.message || "Connection failed. Please try again.";
 
       submitButton.disabled = false;
       submitButton.textContent = "CONTINUE →";
@@ -352,5 +350,6 @@ footer {
   });
 })();
 </script>
+
 </body>
 </html>
