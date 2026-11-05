@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#041020">
+<title>Login | HassanFX</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: white;
+  background: radial-gradient(circle at top, #123052 0%, transparent 45%), #041020;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 35px 28px;
+  border: 1px solid #243b56;
+  border-radius: 20px;
+  background: rgba(9, 24, 43, 0.97);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.logo {
+  margin-bottom: 12px;
+  color: #00d9a0;
+  font-size: 30px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.logo span { color: white; }
+
+h1 {
+  margin-bottom: 10px;
+  font-size: 27px;
+  text-align: center;
+}
+
+.subtitle {
+  margin-bottom: 28px;
+  color: #a8bad0;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.field { margin-bottom: 18px; }
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #dce7f5;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #30465f;
+  border-radius: 10px;
+  outline: none;
+  background: #071527;
+  color: white;
+  font-size: 15px;
+}
+
+input:focus { border-color: #00d9a0; }
+
+.forgot-container {
+  text-align: right;
+  margin-top: -10px;
+  margin-bottom: 18px;
+}
+
+.forgot-link, a {
+  color: #00d9a0;
+  text-decoration: none;
+}
+
+.forgot-link { font-size: 13px; }
+
+.login-btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #00d9a0;
+  color: #041020;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+#message {
+  min-height: 22px;
+  margin-top: 16px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.links {
+  margin-top: 24px;
+  color: #a8bad0;
+  font-size: 14px;
+  line-height: 2;
+  text-align: center;
+}
+
+.footer {
+  margin-top: 25px;
+  color: #72859c;
+  font-size: 12px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+<main class="login-card">
+
+  <div class="logo">Hassan<span>FX</span></div>
+
+  <h1>Welcome Back</h1>
+
+  <p class="subtitle">
+    Enter your details to continue to the demo dashboard.
+  </p>
+
+  <form id="loginForm">
+
+    <div class="field">
+      <label for="email">Email address</label>
+      <input id="email" type="email"
+        placeholder="Enter your email" required>
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input id="password" type="password"
+        placeholder="Enter your password" required>
+    </div>
+
+    <div class="forgot-container">
+      <a href="forgot-password.html" class="forgot-link">
+        Forgot password?
+      </a>
+    </div>
+
+    <button class="login-btn" type="submit">
+      LOGIN →
+    </button>
+
+    <p id="message" role="status"></p>
+  </form>
+
+  <div class="links">
+    Don't have an account?
+    <a href="signup.html">Create account</a>
+  </div>
+
+  <div class="footer">
+    © 2026 HassanFX. All rights reserved.
+  </div>
+
+
+</main>
+
+<script>
+const form = document.getElementById("loginForm");
+const message = document.getElementById("message");
+
+form.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+
+  if (!email) {
+    message.textContent = "Please enter your email.";
+    return;
+  }
+
+  const userName = email.split("@")[0];
+
+  localStorage.setItem("userEmail", email);
+  localStorage.setItem("userName", userName);
+  localStorage.setItem("loggedInEmail", email);
+  localStorage.setItem("loggedInUser", userName);
+
+  message.textContent = "Opening demo dashboard...";
+  message.style.color = "#00d9a0";
+
+  window.location.href = "loading.html";
+});
+</script>
+
+</body>
+</html>
