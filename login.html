@@ -181,32 +181,72 @@ input:focus { border-color: #00d9a0; }
 </main>
 
 <script>
+
 const form = document.getElementById("loginForm");
 const message = document.getElementById("message");
 
-form.addEventListener("submit", function(event) {
+const API_URL = "https://traderscheeem-pro-backend.onrender.com";
+
+form.addEventListener("submit", async function(event) {
   event.preventDefault();
 
   const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
 
-  if (!email) {
-    message.textContent = "Please enter your email.";
+  if (!email || !password) {
+    message.textContent = "Please enter your email and password.";
+    message.style.color = "#ff4d5a";
     return;
   }
 
-  const userName = email.split("@")[0];
+  const button = form.querySelector(".login-btn");
+  button.disabled = true;
+  button.textContent = "PLEASE WAIT...";
+  message.textContent = "Checking your account...";
+  message.style.color = "#a8bad0";
 
-  localStorage.setItem("userEmail", email);
-  localStorage.setItem("userName", userName);
-  localStorage.setItem("loggedInEmail", email);
-  localStorage.setItem("loggedInUser", userName);
+  try {
+    const response = await fetch(`${API_URL}/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    });
 
-  message.textContent = "Opening demo dashboard...";
-  message.style.color = "#00d9a0";
+    const data = await response.json();
 
-  window.location.href = "loading.html";
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "Login failed.");
+    }
+
+    // Save the real login token
+    localStorage.setItem("authToken", data.token);
+    localStorage.setItem("token", data.token);
+
+    // Save the actual user information
+    localStorage.setItem("userEmail", data.user.email);
+    localStorage.setItem("loggedInEmail", data.user.email);
+    localStorage.setItem("userName", data.user.fullName);
+    localStorage.setItem("loggedInUser", data.user.fullName);
+    localStorage.setItem("userId", data.user.id);
+
+    message.textContent = "Login successful! Opening dashboard...";
+    message.style.color = "#00d9a0";
+
+    window.location.href = "loading.html";
+
+  } catch (error) {
+    message.textContent = error.message || "Unable to connect. Try again.";
+    message.style.color = "#ff4d5a";
+
+    button.disabled = false;
+    button.textContent = "LOGIN →";
+  }
 });
-</script>
 
 </body>
 </html>
