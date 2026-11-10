@@ -130,6 +130,7 @@ input:focus { border-color: #00d9a0; }
 </style>
 </head>
 
+
 <body>
 <main class="login-card">
 
@@ -177,17 +178,13 @@ input:focus { border-color: #00d9a0; }
     © 2026 HassanFX. All rights reserved.
   </div>
 
-
 </main>
 
 <script>
-
 const form = document.getElementById("loginForm");
 const message = document.getElementById("message");
 
-const API_URL = "https://traderscheeem-pro-backend.onrender.com";
-
-form.addEventListener("submit", async function(event) {
+form.addEventListener("submit", function(event) {
   event.preventDefault();
 
   const email = document.getElementById("email").value.trim();
@@ -202,52 +199,15 @@ form.addEventListener("submit", async function(event) {
   const button = form.querySelector(".login-btn");
   button.disabled = true;
   button.textContent = "PLEASE WAIT...";
-  message.textContent = "Checking your account...";
-  message.style.color = "#a8bad0";
 
-  try {
-    const response = await fetch(`${API_URL}/api/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password
-      })
-    });
+  localStorage.setItem("userEmail", email);
+  localStorage.setItem("loggedInEmail", email);
 
-    const data = await response.json();
+  message.textContent = "Login successful! Opening dashboard...";
+  message.style.color = "#00d9a0";
 
-    if (!response.ok || !data.success) {
-      throw new Error(data.message || "Login failed.");
-    }
-
-    // Save the real login token
-    localStorage.setItem("authToken", data.token);
-    localStorage.setItem("token", data.token);
-
-    // Save the actual user information
-    localStorage.setItem("userEmail", data.user.email);
-    localStorage.setItem("loggedInEmail", data.user.email);
-    localStorage.setItem("userName", data.user.fullName);
-    localStorage.setItem("loggedInUser", data.user.fullName);
-    localStorage.setItem("userId", data.user.id);
-
-    message.textContent = "Login successful! Opening dashboard...";
-    message.style.color = "#00d9a0";
-
-    window.location.href = "loading.html";
-
-  } catch (error) {
-    message.textContent = error.message || "Unable to connect. Try again.";
-    message.style.color = "#ff4d5a";
-
-    button.disabled = false;
-    button.textContent = "LOGIN →";
-  }
+  window.location.href = "loading.html";
 });
-
 </script>
 </body>
 </html>
