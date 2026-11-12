@@ -558,28 +558,32 @@ document.addEventListener('click', (e)=>{
   
 
 
-function openMpesaDeposit() {
-  const modal = document.getElementById("mpesaDepositModal");
 
-  if (!modal) {
-    alert("M-Pesa popup HTML is missing!");
+function openSidebarNow() {
+  const menu = document.getElementById("sideMenu");
+  const overlay = document.getElementById("sideOverlay");
+
+  if (!menu || !overlay) {
+    alert("Sidebar HTML is missing!");
     return;
   }
 
-  modal.style.display = "flex";
-  modal.classList.add("active");
+  menu.style.left = "0px";
+  overlay.style.display = "block";
   document.body.style.overflow = "hidden";
 }
 
-function closeMpesaDeposit(event) {
-  const modal = document.getElementById("mpesaDepositModal");
-  if (!modal) return;
-  if (event && event.target !== modal) return;
+function closeSidebarNow() {
+  const menu = document.getElementById("sideMenu");
+  const overlay = document.getElementById("sideOverlay");
 
-  modal.style.display = "none";
-  modal.classList.remove("active");
+  if (!menu || !overlay) return;
+
+  menu.style.left = "-320px";
+  overlay.style.display = "none";
   document.body.style.overflow = "";
 }
+
 
 const mpesaAmount = document.getElementById("mpesaAmount");
 
