@@ -556,33 +556,32 @@ document.addEventListener('click', (e)=>{
   if(!e.target.closest('.bal-wrap')) document.getElementById('balDrop').classList.remove('open');
 });
   
-function openSidebarNow() {
-  const menu = document.getElementById('sideMenu');
-  const overlay = document.getElementById('sideOverlay');
 
-  if (!menu || !overlay) {
-    alert('ERROR: Sidebar HTML not found!');
+function openMpesaDeposit() {
+  const modal = document.getElementById("mpesaDepositModal");
+
+  if (!modal) {
+    alert("ERROR: M-Pesa popup HTML is missing!");
     return;
   }
 
-  menu.style.setProperty('left', '0px', 'important');
-  overlay.style.setProperty('display', 'block', 'important');
-
-  document.body.style.overflow = 'hidden';
+  modal.style.setProperty("display", "flex", "important");
+  modal.classList.add("active");
+  document.body.style.overflow = "hidden";
 }
 
-function closeSidebarNow() {
-  const menu = document.getElementById('sideMenu');
-  const overlay = document.getElementById('sideOverlay');
+function closeMpesaDeposit(event) {
+  const modal = document.getElementById("mpesaDepositModal");
 
-  if (!menu || !overlay) return;
+  if (!modal) return;
 
-  menu.style.setProperty('left', '-320px', 'important');
-  overlay.style.setProperty('display', 'none', 'important');
+  if (event && event.target !== modal) return;
 
-  document.body.style.overflow = '';
+  modal.classList.remove("active");
+  modal.style.display = "none";
+  document.body.style.overflow = "";
 }
-  
+
 
 function openMpesaDeposit() {
   document.getElementById("mpesaDepositModal").classList.add("active");
