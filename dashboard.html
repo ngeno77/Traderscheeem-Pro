@@ -558,6 +558,9 @@ document.addEventListener('click', (e)=>{
   
 
 
+/* =================================
+   SIDEBAR FUNCTIONS
+================================= */
 
 function openSidebarNow() {
   const menu = document.getElementById("sideMenu");
@@ -585,33 +588,120 @@ function closeSidebarNow() {
 }
 
 
-const mpesaAmount = document.getElementById("mpesaAmount");
+/* =================================
+   OPEN M-PESA POPUP
+================================= */
 
-if (mpesaAmount) {
-  mpesaAmount.addEventListener("input", function () {
-    const kes = Number(this.value) || 0;
-    const usd = (kes / 130).toFixed(2);
+function openMpesaDeposit() {
+  const modal = document.getElementById("mpesaDepositModal");
 
-    document.getElementById("mpesaUSD").value = usd;
-    document.getElementById("depositUSD").textContent = "$" + usd;
-    document.getElementById("depositKES").textContent =
-      "KES " + kes.toLocaleString();
-  });
+  if (!modal) {
+    alert("M-Pesa popup HTML is missing!");
+    return;
+  }
+
+  modal.style.display = "flex";
+  modal.classList.add("active");
+  document.body.style.overflow = "hidden";
+
+  updateMpesaAmount();
 }
 
-document.querySelectorAll('input[name="mpesaPhone"]')
-.forEach(function (radio) {
-  radio.addEventListener("change", function () {
-    document.getElementById("differentPhone").style.display =
-      this.value === "different" ? "block" : "none";
-  });
-});
+
+/* =================================
+   CLOSE M-PESA POPUP
+================================= */
+
+function closeMpesaDeposit(event) {
+  const modal = document.getElementById("mpesaDepositModal");
+
+  if (!modal) return;
+  if (event && event.target !== modal) return;
+
+  modal.style.display = "none";
+  modal.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+
+/* =================================
+   UPDATE KES TO USD
+================================= */
+
+function updateMpesaAmount() {
+  const amount = document.getElementById("mpesaAmount");
+  const usdInput = document.getElementById("mpesaUSD");
+  const usdText = document.getElementById("depositUSD");
+  const kesText = document.getElementById("depositKES");
+
+  if (!amount) return;
+
+  const kes = Number(amount.value) || 0;
+  const usd = (kes / 130).toFixed(2);
+
+  if (usdInput) usdInput.value = usd;
+  if (usdText) usdText.textContent = "$" + usd;
+  if (kesText) {
+    kesText.textContent = "KES " + kes.toLocaleString("en-KE");
+  }
+}
+
+
+/* =================================
+   INITIALIZE FORM EVENTS
+================================= */
+
+function initializeMpesaForm() {
+  const amount = document.getElementById("mpesaAmount");
+
+  if (amount) {
+    amount.addEventListener("input", updateMpesaAmount);
+  }
+
+  document.querySelectorAll('input[name="mpesaPhone"]')
+    .forEach(function(radio) {
+      radio.addEventListener("change", function() {
+        const differentPhone =
+          document.getElementById("differentPhone");
+
+        if (differentPhone) {
+          differentPhone.style.display =
+            this.value === "different" ? "block" : "none";
+        }
+      });
+    });
+
+  updateMpesaAmount();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeMpesaForm);
+} else {
+  initializeMpesaForm();
+}
+
+
+/* =================================
+   START M-PESA DEPOSIT
+================================= */
 
 function startMpesaDeposit() {
-  alert("M-Pesa Sandbox integration will be connected next.");
+  const amount = Number(
+    document.getElementById("mpesaAmount")?.value
+  );
+
+  if (!Number.isInteger(amount) || amount < 1600 || amount > 10000) {
+    alert("Enter a whole number between KES 1,600 and KES 10,000.");
+    return;
+  }
+
+  alert(
+    "Your deposit form is working!\n\n" +
+    "Amount: KES " + amount.toLocaleString("en-KE") +
+    "\n\nSafaricom Sandbox STK Push is not connected yet."
+  );
 }
 </script>
 </body>
 </html>
-
 
