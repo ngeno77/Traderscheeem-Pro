@@ -558,34 +558,33 @@ function closeSidebarNow() {
   document.body.style.overflow = '';
 }
   
-</script>
-  
+
+<script>
+
 function openMpesaDeposit() {
-  document.getElementById("mpesaDepositModal")
-    .classList.add("active");
+  document.getElementById("mpesaDepositModal").classList.add("active");
 }
 
 function closeMpesaDeposit(event) {
   if (event && event.target.id !== "mpesaDepositModal") return;
 
-  document.getElementById("mpesaDepositModal")
-    .classList.remove("active");
+  document.getElementById("mpesaDepositModal").classList.remove("active");
 }
 
-// Update USD amount
 const mpesaAmount = document.getElementById("mpesaAmount");
 
-mpesaAmount.addEventListener("input", function () {
-  const kes = Number(this.value) || 0;
-  const usd = (kes / 130).toFixed(2);
+if (mpesaAmount) {
+  mpesaAmount.addEventListener("input", function () {
+    const kes = Number(this.value) || 0;
+    const usd = (kes / 130).toFixed(2);
 
-  document.getElementById("mpesaUSD").value = usd;
-  document.getElementById("depositUSD").textContent = "$" + usd;
-  document.getElementById("depositKES").textContent =
-    "KES " + kes.toLocaleString();
-});
+    document.getElementById("mpesaUSD").value = usd;
+    document.getElementById("depositUSD").textContent = "$" + usd;
+    document.getElementById("depositKES").textContent =
+      "KES " + kes.toLocaleString();
+  });
+}
 
-// Phone selection
 document.querySelectorAll('input[name="mpesaPhone"]')
 .forEach(function (radio) {
   radio.addEventListener("change", function () {
@@ -594,10 +593,11 @@ document.querySelectorAll('input[name="mpesaPhone"]')
   });
 });
 
-// Temporary: UI only, no payment or wallet credit yet
 function startMpesaDeposit() {
-  alert("M-Pesa payment integration will be connected next.");
+  alert("M-Pesa integration will be connected next.");
 }
-  
+
+</script>
 </body>
 </html>
+
