@@ -714,102 +714,78 @@ function startMpesaDeposit() {
 </script>
 
 
-<!-- =================================
-     M-PESA DEPOSIT POPUP
-================================= -->
 
+<!-- M-PESA DEPOSIT POPUP -->
 <div id="mpesaDepositModal"
-     class="mpesa-overlay"
-     onclick="closeMpesaDeposit(event)">
+     onclick="closeMpesaDeposit(event)"
+     style="display:none; position:fixed; inset:0; z-index:999999; background:rgba(0,0,0,.85); align-items:center; justify-content:center; padding:15px; box-sizing:border-box; overflow-y:auto;">
 
-  <div class="mpesa-box"
-       onclick="event.stopPropagation()">
+  <div onclick="event.stopPropagation()"
+       style="width:100%; max-width:480px; max-height:90vh; overflow-y:auto; padding:22px; box-sizing:border-box; background:#151D2E; color:white; border:1px solid #35415a; border-radius:20px;">
 
-    <div class="mpesa-heading">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
       <h3>Deposit with M-Pesa</h3>
-      <span class="mpesa-real">REAL</span>
+      <span style="background:#172b50; color:#4285ff; padding:8px 14px; border-radius:20px;">REAL</span>
     </div>
 
-    <p class="mpesa-label">M-Pesa (Till)</p>
+    <p style="color:#aab3c5; margin:12px 0;">M-Pesa (Till)</p>
 
-    <div class="mpesa-fields">
-
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
       <div>
         <label>Amount (KES)</label>
-        <input id="mpesaAmount"
-               type="number"
-               value="1600"
-               min="1600"
-               max="10000">
+        <input id="mpesaAmount" type="number" value="1600" min="1600" max="10000"
+          style="width:100%; padding:12px; background:#0A101E; color:white; border:1px solid #35415a; border-radius:10px; box-sizing:border-box;">
       </div>
-
       <div>
         <label>Amount (USD)</label>
-        <input id="mpesaUSD"
-               type="text"
-               value="12.31"
-               readonly>
+        <input id="mpesaUSD" type="text" value="12.31" readonly
+          style="width:100%; padding:12px; background:#0A101E; color:white; border:1px solid #35415a; border-radius:10px; box-sizing:border-box;">
       </div>
-
     </div>
 
-    <p class="mpesa-rate">
-      Rate: KES 130 = $1.00.
-      Minimum: KES 1,600.
-      Maximum: KES 10,000.
+    <p style="color:#aab3c5; margin:14px 0;">
+      Rate: KES 130 = $1.00. Minimum: KES 1,600. Maximum: KES 10,000.
     </p>
 
     <h4>M-Pesa phone number</h4>
 
-    <label class="mpesa-phone-option">
-      <input type="radio"
-             name="mpesaPhone"
-             value="account"
-             checked>
-
+    <label style="display:flex; gap:10px; align-items:center; background:#0A101E; padding:13px; border-radius:10px; margin:10px 0;">
+      <input type="radio" name="mpesaPhone" value="account" checked>
       <span>
         <strong>Phone on this account</strong>
-        <small id="accountPhone">
-          Use your registered phone
-        </small>
+        <small id="accountPhone" style="display:block; color:#aab3c5;">Use your registered phone</small>
       </span>
     </label>
 
-    <label class="mpesa-phone-option">
-      <input type="radio"
-             name="mpesaPhone"
-             value="different">
-
+    <label style="display:flex; gap:10px; align-items:center; background:#0A101E; padding:13px; border-radius:10px; margin:10px 0;">
+      <input type="radio" name="mpesaPhone" value="different">
       <strong>Different phone number</strong>
     </label>
 
-    <input id="differentPhone"
-           type="tel"
-           placeholder="Enter M-Pesa phone number"
-           style="display:none;">
+    <input id="differentPhone" type="tel"
+      placeholder="Enter M-Pesa phone number"
+      style="display:none; width:100%; padding:12px; background:#0A101E; color:white; border:1px solid #35415a; border-radius:10px; box-sizing:border-box;">
 
-    <p class="mpesa-info">
+    <p style="color:#aab3c5; margin:14px 0;">
       Select the Safaricom number to receive the payment prompt.
     </p>
 
-    <p class="mpesa-summary">
+    <p style="margin:18px 0; line-height:1.7;">
       <strong id="depositUSD">$12.31</strong>
       (<span id="depositKES">KES 1,600</span>)
       will be deposited after successful payment confirmation.
     </p>
 
-    <div class="mpesa-actions">
-
-      <button type="button"
-              onclick="startMpesaDeposit()">
+    <div style="display:flex; gap:12px;">
+      <button type="button" onclick="startMpesaDeposit()"
+        style="flex:1; padding:14px; background:#2865ed; color:white; border:0; border-radius:10px; font-weight:bold;">
         Deposit
       </button>
 
-      <button type="button"
-              onclick="closeMpesaDeposit()">
+      <button type="button" onclick="closeMpesaDeposit()"
+        style="flex:1; padding:14px; background:#30384e; color:white; border:0; border-radius:10px; font-weight:bold;">
         Cancel
       </button>
-
     </div>
 
   </div>
@@ -817,4 +793,3 @@ function startMpesaDeposit() {
 
 </body>
 </html>
-  
