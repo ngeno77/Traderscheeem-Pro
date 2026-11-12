@@ -485,32 +485,56 @@ function doTrade(dir){
   }
 }
 
-function pickDigit(i){lastD=i; renderDigits();}
+
+function pickDigit(i) {
+  lastD = i;
+  renderDigits();
+}
 
 function handleSidebarAction(action) {
+
   if (action === 'deposit') {
     toggleMenu();
-    if (typeof openDep === 'function') {
-      openDep();
-    } else {
-      window.location.href = 'deposit.html';
-    }
+
+    setTimeout(() => {
+      if (typeof openMpesaDeposit === 'function') {
+        openMpesaDeposit();
+      } else {
+        alert('M-Pesa deposit popup is not loaded.');
+      }
+    }, 200);
+
   } else if (action === 'withdraw') {
     window.location.href = 'withdraw.html';
+
   } else if (action === 'history') {
     window.location.href = 'history.html';
+
   } else if (action === 'positions') {
     toggleMenu();
     alert('Positions view active on dashboard.');
+
   } else if (action === 'settings') {
     window.location.href = 'settings.html';
+
   } else if (action === 'refer') {
-    const inviteText = encodeURIComponent("Hey! Join me on Traders Scheem and start trading today: https://haasngeno-debug.github.io/traders-scheem/");
+    const inviteText = encodeURIComponent(
+      "Hey! Join me on Traders Scheem and start trading today!"
+    );
     window.open(`https://wa.me/?text=${inviteText}`, '_blank');
+
   } else if (action === 'help') {
-    window.open('https://wa.me/254114622873?text=Hello,%20I%20need%20help%20with%20Help%20Centre', '_blank');
+    window.open(
+      'https://wa.me/254114622873?text=Hello,%20I%20need%20help',
+      '_blank'
+    );
+
   } else if (action === 'chat') {
-    window.open('https://wa.me/254114622873?text=Hello,%20I%20would%20like%20to%20chat%20with%20support', '_blank');
+    window.open(
+      'https://wa.me/254114622873?text=Hello,%20I%20need%20support',
+      '_blank'
+    );
+
   } else if (action === 'logout') {
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userName');
@@ -519,6 +543,7 @@ function handleSidebarAction(action) {
     window.location.href = 'login.html';
   }
 }
+
 
 // Initialize on page load
 renderDigits(); 
