@@ -558,6 +558,8 @@ document.addEventListener('click', (e)=>{
   
 
 
+
+<script>
 /* =================================
    SIDEBAR FUNCTIONS
 ================================= */
@@ -641,8 +643,10 @@ function updateMpesaAmount() {
 
   if (usdInput) usdInput.value = usd;
   if (usdText) usdText.textContent = "$" + usd;
+
   if (kesText) {
-    kesText.textContent = "KES " + kes.toLocaleString("en-KE");
+    kesText.textContent =
+      "KES " + kes.toLocaleString("en-KE");
   }
 }
 
@@ -686,11 +690,18 @@ if (document.readyState === "loading") {
 ================================= */
 
 function startMpesaDeposit() {
-  const amount = Number(
-    document.getElementById("mpesaAmount")?.value
-  );
+  const amountInput = document.getElementById("mpesaAmount");
 
-  if (!Number.isInteger(amount) || amount < 1600 || amount > 10000) {
+  if (!amountInput) {
+    alert("Amount field is missing!");
+    return;
+  }
+
+  const amount = Number(amountInput.value);
+
+  if (!Number.isInteger(amount) ||
+      amount < 1600 ||
+      amount > 10000) {
     alert("Enter a whole number between KES 1,600 and KES 10,000.");
     return;
   }
@@ -701,8 +712,13 @@ function startMpesaDeposit() {
     "\n\nSafaricom Sandbox STK Push is not connected yet."
   );
 }
-  
-<!-- M-PESA DEPOSIT POPUP -->
+</script>
+
+
+<!-- =================================
+     M-PESA DEPOSIT POPUP
+================================= -->
+
 <div id="mpesaDepositModal"
      class="mpesa-overlay"
      onclick="closeMpesaDeposit(event)">
@@ -718,6 +734,7 @@ function startMpesaDeposit() {
     <p class="mpesa-label">M-Pesa (Till)</p>
 
     <div class="mpesa-fields">
+
       <div>
         <label>Amount (KES)</label>
         <input id="mpesaAmount"
@@ -734,6 +751,7 @@ function startMpesaDeposit() {
                value="12.31"
                readonly>
       </div>
+
     </div>
 
     <p class="mpesa-rate">
@@ -749,9 +767,12 @@ function startMpesaDeposit() {
              name="mpesaPhone"
              value="account"
              checked>
+
       <span>
         <strong>Phone on this account</strong>
-        <small id="accountPhone">Use your registered phone</small>
+        <small id="accountPhone">
+          Use your registered phone
+        </small>
       </span>
     </label>
 
@@ -759,6 +780,7 @@ function startMpesaDeposit() {
       <input type="radio"
              name="mpesaPhone"
              value="different">
+
       <strong>Different phone number</strong>
     </label>
 
@@ -778,6 +800,7 @@ function startMpesaDeposit() {
     </p>
 
     <div class="mpesa-actions">
+
       <button type="button"
               onclick="startMpesaDeposit()">
         Deposit
@@ -787,12 +810,12 @@ function startMpesaDeposit() {
               onclick="closeMpesaDeposit()">
         Cancel
       </button>
+
     </div>
 
   </div>
 </div>
-  
-</script>
+
 </body>
 </html>
-
+  
