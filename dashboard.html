@@ -557,40 +557,28 @@ document.addEventListener('click', (e)=>{
 });
   
 
+
 function openMpesaDeposit() {
   const modal = document.getElementById("mpesaDepositModal");
 
   if (!modal) {
-    alert("ERROR: M-Pesa popup HTML is missing!");
+    alert("M-Pesa popup HTML is missing!");
     return;
   }
 
-  modal.style.setProperty("display", "flex", "important");
+  modal.style.display = "flex";
   modal.classList.add("active");
   document.body.style.overflow = "hidden";
 }
 
 function closeMpesaDeposit(event) {
   const modal = document.getElementById("mpesaDepositModal");
-
   if (!modal) return;
-
   if (event && event.target !== modal) return;
 
-  modal.classList.remove("active");
   modal.style.display = "none";
+  modal.classList.remove("active");
   document.body.style.overflow = "";
-}
-
-
-function openMpesaDeposit() {
-  document.getElementById("mpesaDepositModal").classList.add("active");
-}
-
-function closeMpesaDeposit(event) {
-  if (event && event.target.id !== "mpesaDepositModal") return;
-
-  document.getElementById("mpesaDepositModal").classList.remove("active");
 }
 
 const mpesaAmount = document.getElementById("mpesaAmount");
@@ -616,10 +604,10 @@ document.querySelectorAll('input[name="mpesaPhone"]')
 });
 
 function startMpesaDeposit() {
-  alert("M-Pesa integration will be connected next.");
+  alert("M-Pesa Sandbox integration will be connected next.");
 }
-
 </script>
 </body>
 </html>
+
 
